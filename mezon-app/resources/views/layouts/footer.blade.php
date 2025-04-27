@@ -124,6 +124,7 @@
 
 
 @yield('map')
+@yield('script')
 
 </body>
 </html>

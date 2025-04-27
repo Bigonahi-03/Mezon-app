@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -45,15 +45,8 @@ public function show(Product $product)
     // دریافت تمام تصاویر مرتبط با محصول
     $images = $product->images;
 
-    // دریافت ۴ محصول تصادفی که:
-    // ۱. فعال باشند (status = 1)
-    // ۲. موجودی داشته باشند (quantity > 0)
-    // ۳. محصول فعلی در میان آن‌ها نباشد
-    $randomProducts = Product::where('status', 1)
-        ->where('quantity', '>', 0)
-        ->where('id', '!=', $product->id)
-        ->get()
-        ->random(4);
+    // دریافت ۴ محصول تصادفی 
+    $randomProducts = Product::where('status', 1)->where('quantity', '>', 0)->where('id', '!=', $product->id)->get()->random(4);
 
     // ارسال محصول، تصاویر، و محصولات تصادفی به ویو
     return view('products.product', compact('product', 'images', 'randomProducts'));
@@ -65,36 +58,41 @@ public function show(Product $product)
  *
  * @return \Illuminate\View\View
  */
-public function menu()
+public function menu(Request $request)
 {
-    // دریافت تمام محصولات فعال
-    $products = Product::where('status', 1)->get();
+    $searchQuery = $request->search;
+    $mainCategories = Category::with('children')->whereNull('parent_id')->where('status', '1')->get();
+    
+    // Base query for all products
+    $productsQuery = Product::where('status', 1)
+        ->search($searchQuery)
+        ->when($request->sort, function($query, $sort) {
+            switch($sort) {
+                case 'price_desc': return $query->orderBy('price', 'desc');
+                case 'price_asc': return $query->orderBy('price', 'asc');
+                case 'popular': return $query->orderBy('sales_count', 'desc');
+                case 'discount': return $query->where('discount', '>', 0);
+                default: return $query->latest();
+            }
+        }, function($query) {
+            return $query->latest();
+        });
 
-    // دریافت دسته‌بندی‌های اصلی همراه با زیرمجموعه‌ها
-    $mainCategories = Category::with('children')
-        ->whereNull('parent_id')
-        ->where('status', '1')
-        ->get();
+    // Get all active products
+    $products = $productsQuery->paginate(9, ['*'], 'تمام_دسته_بندی_ها');
 
-    // آرایه‌ای برای ذخیره محصولات بر اساس دسته‌بندی اصلی
+    // Get products by main category
     $productByMainCategory = [];
-
     foreach ($mainCategories as $mainCategory) {
-        // دریافت تمام شناسه‌های زیرمجموعه‌های مربوط به هر دسته‌بندی اصلی
         $categoryIds = $mainCategory->children->pluck('id')->toArray();
-
-        // دریافت محصولات مرتبط با زیرمجموعه‌ها که فعال باشد بر اساس جدید ترین مرتب شده اند
-        $productByMainCategory[$mainCategory->id] = Product::whereIn('category_id', $categoryIds)
-            ->where('status', 1)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $slug = 'دسته_بندی_' . str_replace(' ', '_', $mainCategory->name);
+        
+        $productByMainCategory[$mainCategory->id] = $productsQuery
+            ->whereIn('category_id', $categoryIds)
+            ->paginate(9, ['*'], $slug);
     }
 
-    // دیباگ: نمایش محصولات دسته‌بندی آخر
-    // dd($productByMainCategory[$mainCategory->id]);
-
-    // ارسال داده‌ها به ویو: محصولات، دسته‌بندی‌های اصلی و محصولات دسته‌بندی‌ها
-    return view('products.menu', compact('products', 'mainCategories', 'productByMainCategory'));
+    return view('products.menu', compact('products', 'mainCategories', 'productByMainCategory', 'searchQuery'));
 }
 
 

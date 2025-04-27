@@ -5,8 +5,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 ">
-                <div class="img-box">
-                    <img src="images/about-img.jpg" alt="" />
+                <div class="">
+                    <img src="images/about-img.jpg" width="350" alt="" />
                 </div>
             </div>
             <div class="col-md-6">

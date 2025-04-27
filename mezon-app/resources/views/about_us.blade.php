@@ -3,7 +3,7 @@
 @endphp
 @extends('layouts.master')
 
-@section('title', 'Contact Us')
+@section('title', 'About Us')
 
 @section('content')
 
@@ -11,13 +11,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 ">
-                <div class="img-box">
-                    <img src="images/about-img.jpg" alt="" />
+                <div class="">
+                    <img src="images/about-img.jpg" width="400" alt="Image About Us" />
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="detail-box">
-                    <div class="heading_container">
+                <div class="">
+                    <div class="heading_container mb-4">
                         <h2>
                             {{ $aboutUs->title }}
                         </h2>
