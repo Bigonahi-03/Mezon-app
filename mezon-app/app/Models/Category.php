@@ -29,4 +29,14 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    /**
+     * تبدیل نام دسته‌بندی به اسلاگ
+     *
+     * @return string
+     */
+    public function getSlugAttribute(): string
+    {
+        return str_replace(' ', '-', $this->name);
+    }
 }

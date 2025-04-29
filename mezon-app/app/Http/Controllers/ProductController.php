@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Str;
+
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -45,8 +45,15 @@ public function show(Product $product)
     // دریافت تمام تصاویر مرتبط با محصول
     $images = $product->images;
 
-    // دریافت ۴ محصول تصادفی 
-    $randomProducts = Product::where('status', 1)->where('quantity', '>', 0)->where('id', '!=', $product->id)->get()->random(4);
+    // دریافت ۴ محصول تصادفی که:
+    // ۱. فعال باشند (status = 1)
+    // ۲. موجودی داشته باشند (quantity > 0)
+    // ۳. محصول فعلی در میان آن‌ها نباشد
+    $randomProducts = Product::where('status', 1)
+        ->where('quantity', '>', 0)
+        ->where('id', '!=', $product->id)
+        ->get()
+        ->random(4);
 
     // ارسال محصول، تصاویر، و محصولات تصادفی به ویو
     return view('products.product', compact('product', 'images', 'randomProducts'));
@@ -60,40 +67,37 @@ public function show(Product $product)
  */
 public function menu(Request $request)
 {
-    $searchQuery = $request->search;
-    $mainCategories = Category::with('children')->whereNull('parent_id')->where('status', '1')->get();
-    
-    // Base query for all products
-    $productsQuery = Product::where('status', 1)
-        ->search($searchQuery)
-        ->when($request->sort, function($query, $sort) {
-            switch($sort) {
-                case 'price_desc': return $query->orderBy('price', 'desc');
-                case 'price_asc': return $query->orderBy('price', 'asc');
-                case 'popular': return $query->orderBy('sales_count', 'desc');
-                case 'discount': return $query->where('discount', '>', 0);
-                default: return $query->latest();
-            }
-        }, function($query) {
-            return $query->latest();
-        });
+    $search = $request->query('search');
+    $tab = $request->query('tab', 'all');
 
-    // Get all active products
-    $products = $productsQuery->paginate(9, ['*'], 'تمام_دسته_بندی_ها');
+    $products = Product::where('status', 1)
+        ->when($search, function($query) use ($search) {
+            return $query->search($search);
+        })
+        ->paginate(12, ['*'], 'all_page');
 
-    // Get products by main category
+    $mainCategories = Category::with('children')
+        ->whereNull('parent_id')
+        ->where('status', '1')
+        ->get();
+
     $productByMainCategory = [];
+
     foreach ($mainCategories as $mainCategory) {
         $categoryIds = $mainCategory->children->pluck('id')->toArray();
-        $slug = 'دسته_بندی_' . str_replace(' ', '_', $mainCategory->name);
-        
-        $productByMainCategory[$mainCategory->id] = $productsQuery
-            ->whereIn('category_id', $categoryIds)
-            ->paginate(9, ['*'], $slug);
+
+        $productByMainCategory[$mainCategory->slug] = Product::whereIn('category_id', $categoryIds)
+            ->where('status', 1)
+            ->when($search, function($query) use ($search) {
+                return $query->search($search);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(2, ['*'], $mainCategory->slug . '_page');
     }
 
-    return view('products.menu', compact('products', 'mainCategories', 'productByMainCategory', 'searchQuery'));
+    return view('products.menu', compact('products', 'mainCategories', 'productByMainCategory', 'search', 'tab'));
 }
+
 
 
     /**

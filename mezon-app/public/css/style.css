@@ -1395,3 +1395,45 @@ a:focus {
 }
 /* End Style for Toast with sweetalert 2 */
 
+/* Custom Styles */
+body {
+    font-family: 'IRANSans', sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.list-group-item.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.footer {
+    margin-top: 50px;
+}
+
+/* RTL Specific Styles */
+.navbar-nav {
+    padding-right: 0;
+}
+
+.me-auto {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+

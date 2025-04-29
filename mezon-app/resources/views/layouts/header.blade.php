@@ -49,7 +49,7 @@
                                     <a class="nav-link" href="{{ route('home') }}">صفحه اصلی</a>
                                 </li>
                                 <li class="nav-item {{ request()->is('menu') ? 'active' : ''  }}">
-                                    <a class="nav-link" href="{{ route('products.menu') }}">منو</a>
+                                    <a class="nav-link" href="{{ route('products.menu') }}">محصولات</a>
                                 </li>
                                 <li class="nav-item {{ request()->is('about_us') ? 'active' : ''  }}">
                                     <a class="nav-link" href="{{ route('about_us') }}">درباره ما</a>
