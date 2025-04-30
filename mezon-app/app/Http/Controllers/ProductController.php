@@ -45,15 +45,8 @@ public function show(Product $product)
     // دریافت تمام تصاویر مرتبط با محصول
     $images = $product->images;
 
-    // دریافت ۴ محصول تصادفی که:
-    // ۱. فعال باشند (status = 1)
-    // ۲. موجودی داشته باشند (quantity > 0)
-    // ۳. محصول فعلی در میان آن‌ها نباشد
-    $randomProducts = Product::where('status', 1)
-        ->where('quantity', '>', 0)
-        ->where('id', '!=', $product->id)
-        ->get()
-        ->random(4);
+    // دریافت چهار محصول تصادفی که موجودی داشته باشند و تکراری نباشند
+    $randomProducts = Product::status()->where('quantity', '>', 0)->where('id', '!=', $product->id)->get()->random(4);
 
     // ارسال محصول، تصاویر، و محصولات تصادفی به ویو
     return view('products.product', compact('product', 'images', 'randomProducts'));
@@ -62,6 +55,7 @@ public function show(Product $product)
 /**
  * Display the menu page with categories and related products.
  * نمایش صفحه منو همراه با دسته‌بندی‌ها و محصولات مرتبط
+ * و فلیتر جستجو، دسته بندی فرعی و مرتب سازی محصولات
  *
  * @return \Illuminate\View\View
  */
@@ -69,36 +63,32 @@ public function menu(Request $request)
 {
     $search = $request->query('search');
     $tab = $request->query('tab', 'all');
+    $category = $request->query('category');
 
-    $products = Product::where('status', 1)
-        ->when($search, function($query) use ($search) {
-            return $query->search($search);
-        })
-        ->paginate(12, ['*'], 'all_page');
+    //دریافت تمام دسته‌بندی‌ها فعال همراه با زیردسته‌ها
+    $mainCategories = Category::status()->whereNull('parent_id')->get();
 
-    $mainCategories = Category::with('children')
-        ->whereNull('parent_id')
-        ->where('status', '1')
-        ->get();
+    //دریافت تمام محصولات فعال همراه با جستجو به صورت صفحه بندی
+    $products = Product::search($request->search)->status()->paginate(9, ['*'], 'all_page');
 
+    //ارایه ذخیره محصولات بر اساس دسته بندی
     $productByMainCategory = [];
 
+    //دریافت محصولات برای هر دسته‌بندی اصلی
     foreach ($mainCategories as $mainCategory) {
+        $subCategory = $mainCategory->children;
         $categoryIds = $mainCategory->children->pluck('id')->toArray();
 
-        $productByMainCategory[$mainCategory->slug] = Product::whereIn('category_id', $categoryIds)
-            ->where('status', 1)
-            ->when($search, function($query) use ($search) {
-                return $query->search($search);
-            })
+        $productByMainCategory[$mainCategory->slug] = Product::status()
+            ->search($request->search)
+            ->whereIn('category_id', $categoryIds)
+            ->category()
             ->orderBy('created_at', 'desc')
-            ->paginate(2, ['*'], $mainCategory->slug . '_page');
+            ->paginate(9, ['*'], $mainCategory->slug . '_page');
     }
 
-    return view('products.menu', compact('products', 'mainCategories', 'productByMainCategory', 'search', 'tab'));
+    return view('products.menu', compact('products', 'mainCategories', 'subCategory', 'productByMainCategory', 'search', 'tab'));
 }
-
-
 
     /**
      * Show the form for editing the specified resource.

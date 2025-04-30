@@ -1,19 +1,20 @@
+@import url('variables.css');
+
 @font-face {
   font-family: "Vazir";
   src: url(../fonts/Vazir.eot);
-  /* IE9 Compat Modes */
-  src: url(../fontsfonts/Vazir.eot) format("embedded-opentype"),
+  src: url(../fonts/Vazir.eot?#iefix) format("embedded-opentype"),
     url(../fonts/Vazir.woff2) format("woff2"),
     url(../fonts/Vazir.woff) format("woff"),
     url(../fonts/Vazir.ttf) format("truetype");
-  /* Safari, Android, iOS */
 }
 
 body {
-  font-family: "Vazir", sans-serif !important;
-  color: #0c0c0c;
-  background-color: #ffffff;
+  font-family: "Vazir", Arial, sans-serif !important;
+  color: var(--text-color);
+  background-color: var(--background-color);
   overflow-x: hidden;
+  direction: rtl;
 }
 
 .bi::before,
@@ -22,11 +23,11 @@ body {
   vertical-align: -0.3em !important;
 }
 .layout_padding {
-  padding: 90px 0;
+  padding: var(--layout-padding) 0;
 }
 
 .layout_padding2 {
-  padding: 75px 0;
+  padding: var(--layout-padding-sm) 0;
 }
 
 .layout_padding2-top {
@@ -47,7 +48,7 @@ body {
 
 h1,
 h2 {
-  font-family: "Vazir", sans-serif;
+  font-family: "Vazir", Arial, sans-serif;
 }
 
 p {
@@ -168,6 +169,8 @@ a:focus {
 
 .header_section {
   padding: 5px 0;
+  background-color: var(--secondary-color);
+  color: var(--text-light);
 }
 
 .header_section .container-fluid {
@@ -176,7 +179,7 @@ a:focus {
 }
 
 .navbar-brand {
-  font-family: "Vazir", sans-serif;
+  font-family: "Vazir", Arial, sans-serif;
 }
 
 .navbar-brand span {
@@ -489,13 +492,12 @@ a:focus {
 
 .food_section .box {
   position: relative;
-  margin-top: 25px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  color: #ffffff;
-  border-radius: 15px;
+  margin-top: var(--card-padding);
+  background-color: var(--background-color);
+  border-radius: var(--card-radius);
+  color: var(--text-light);
   overflow: hidden;
-  background: linear-gradient(to bottom, #f1f2f3 25px, #222831 25px);
+  background: linear-gradient(to bottom, #f1f2f3 25px, var(--secondary-color) 25px);
 }
 
 .food_section .box .img-box {
@@ -928,9 +930,9 @@ a:focus {
 
 /* footer section*/
 .footer_section {
-  background-color: #222831;
-  color: #ffffff;
-  padding: 75px 0 40px 0;
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  padding: var(--layout-padding-sm) 0 40px 0;
   text-align: center;
 }
 
@@ -942,7 +944,7 @@ a:focus {
 .footer_section .footer-logo {
   font-weight: 600;
   margin-bottom: 20px;
-  font-family: "Vazir", sans-serif;
+  font-family: "Vazir", Arial, sans-serif;
   text-decoration: none;
 }
 
@@ -1065,9 +1067,9 @@ a:focus {
 }
 
 .page-item.active .page-link {
-  color: #ffbe33 !important;
-  background-color: #222831 !important;
-  border-color: #222831 !important;
+  color: var(--primary-color) !important;
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .page-link:hover {
@@ -1090,17 +1092,16 @@ a:focus {
 
 .btn {
   display: inline-block;
-  padding: 8px 30px;
-  background-color: #ffbe33;
-  color: #ffffff;
-  border-radius: 45px;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  padding: var(--input-padding);
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
   border: none;
 }
 
 .btn:hover {
-  background-color: #e69c00;
+  background-color: var(--primary-hover);
 }
 
 .btn-primary {
@@ -1131,8 +1132,8 @@ a:focus {
 }
 
 .form-control:focus {
-  border-color: #222831;
-  box-shadow: 0 0 0 0.25rem rgb(51 52 54 / 25%);
+  border-color: var(--secondary-color);
+  box-shadow: var(--box-shadow);
 }
 
 .carousel-inner {
@@ -1141,12 +1142,11 @@ a:focus {
 
 .single_page_section .btn-add {
   display: inline-block;
-  padding: 8px 30px;
-  background-color: #ffbe33;
-  color: #ffffff;
-  border-radius: 45px;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  padding: var(--input-padding);
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
   border: none;
 }
 
@@ -1363,19 +1363,19 @@ a:focus {
 
 /* Style for Toast with sweetalert 2 */
 .colored-toast.swal2-icon-success {
-  background-color: #a5dc86 !important;
+  background-color: var(--success-color) !important;
 }
 
 .colored-toast.swal2-icon-error {
-  background-color: #f27474 !important;
+  background-color: var(--error-color) !important;
 }
 
 .colored-toast.swal2-icon-warning {
-  background-color: #f8bb86 !important;
+  background-color: var(--warning-color) !important;
 }
 
 .colored-toast.swal2-icon-info {
-  background-color: #3fc3ee !important;
+  background-color: var(--info-color) !important;
 }
 
 .colored-toast.swal2-icon-question {
@@ -1435,5 +1435,39 @@ body {
 .me-auto {
     margin-left: auto !important;
     margin-right: 0 !important;
+}
+
+/* استایل‌های محتوای تب‌ها */
+.tab-content {
+    position: relative;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.tab-pane {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(20px);
+}
+
+.tab-pane.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+    transform: translateY(0);
+}
+
+/* حذف استایل‌های لودینگ */
+.loading-overlay {
+    display: none;
+}
+
+.loading-spinner {
+    display: none;
 }
 

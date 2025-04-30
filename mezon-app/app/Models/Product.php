@@ -49,4 +49,34 @@ class Product extends Model
     {
         return $query->where('name', 'LIKE', '%' . trim($search) . '%')->orWhere('description', 'LIKE', '%' . trim($search) . '%');
     }
+
+    /**
+     * فیلتر کردن محصولات براساس دسته بندی
+     * این اسکوپ محصولات را براساس دسته بندی جستجوی می‌کند.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCategory($query)
+    {
+        if (request()->has('category')) {
+            $category = Category::where('name', slugToStr(request()->category))->get();
+            if ($category) {
+                $query->whereIn('category_id', $category->pluck('id')->toArray());
+            }
+        }
+        return $query;
+    }
+
+    /**
+     * فیلتر کردن محصولات فعال
+     * این اسکوپ فقط محصولات فعال را برمی‌گرداند
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query)
+    {
+        return $query->where('status', 1);
+    }
 }

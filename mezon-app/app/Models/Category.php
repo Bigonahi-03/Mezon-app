@@ -39,4 +39,16 @@ class Category extends Model
     {
         return str_replace(' ', '-', $this->name);
     }
+
+    /**
+     * فیلتر کردن دسته‌بندی‌های فعال
+     * این اسکوپ فقط دسته‌بندی‌های فعال (status = 1) را برمی‌گرداند
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query)
+    {
+        return $query->where('status', 1);
+    }
 }

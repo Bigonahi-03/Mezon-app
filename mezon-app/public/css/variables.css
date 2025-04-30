@@ -1,0 +1,47 @@
+:root {
+    /* رنگ‌های اصلی */
+    --primary-color:#C5B358; /* نارنجی طلایی */
+    --primary-hover:#B8860B; /* نارنجی تیره */
+    --secondary-color: #222831; /* خاکستری تیره */
+    --secondary-hover: #1a1f26; /* خاکستری تیره‌تر */
+    --text-color: #0c0c0c; /* مشکی */
+    --text-light: #ffffff; /* سفید */
+    --text-muted: #dbdbdb; /* خاکستری روشن */
+    --background-color: #ffffff; /* سفید */
+    --border-color: #999; /* خاکستری متوسط */
+
+    /* رنگ‌های وضعیت */
+    --success-color: #a5dc86; /* سبز */
+    --error-color: #f27474; /* قرمز */
+    --warning-color: #f8bb86; /* نارنجی */
+    --info-color: #3fc3ee; /* آبی */
+
+    /* فاصله‌گذاری */
+    --layout-padding: 90px;
+    --layout-padding-sm: 75px;
+    --section-padding: 60px;
+    --card-padding: 25px;
+    --input-padding: 8px 30px;
+
+    /* اندازه‌ها */
+    --border-radius: 45px;
+    --border-radius-sm: 5px;
+    --card-radius: 15px;
+    --input-height: 40px;
+    --button-height: 45px;
+
+    /* فونت */
+    --font-family: "Vazir", Arial, sans-serif;
+    --font-size-base: 16px;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 2.5rem;
+    --font-size-xxl: 3.5rem;
+
+    /* سایه‌ها */
+    --box-shadow: 0 0 0 0.25rem rgb(51 52 54 / 25%);
+    --box-shadow-primary: 0 0 0 0.25rem rgb(252 208 59 / 50%);
+
+    /* انیمیشن‌ها */
+    --transition: all 0.3s;
+    --transition-slow: all 0.6s;
+} 

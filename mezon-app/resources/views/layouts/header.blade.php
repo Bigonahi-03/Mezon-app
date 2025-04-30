@@ -14,6 +14,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
 
     @yield('link')
