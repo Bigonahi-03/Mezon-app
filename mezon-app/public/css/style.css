@@ -102,6 +102,15 @@ a:focus {
   color: initial;
 }
 
+ul {
+  list-style-type: circle;
+}
+ul .filter-list-active {
+  list-style-type: disc;
+
+}
+
+
 .btn,
 .btn:focus {
   outline: none !important;

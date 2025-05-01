@@ -69,7 +69,7 @@ public function menu(Request $request)
     $mainCategories = Category::status()->whereNull('parent_id')->get();
 
     //دریافت تمام محصولات فعال همراه با جستجو به صورت صفحه بندی
-    $products = Product::search($request->search)->status()->paginate(9, ['*'], 'all_page');
+    $products = Product::search($request->search)->status()->sortBy()->paginate(9, ['*'], 'all_page');
 
     //ارایه ذخیره محصولات بر اساس دسته بندی
     $productByMainCategory = [];
@@ -83,6 +83,7 @@ public function menu(Request $request)
             ->search($request->search)
             ->whereIn('category_id', $categoryIds)
             ->category()
+            ->sortBy()
             ->orderBy('created_at', 'desc')
             ->paginate(9, ['*'], $mainCategory->slug . '_page');
     }

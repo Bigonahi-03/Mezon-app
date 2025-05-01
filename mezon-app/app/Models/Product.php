@@ -37,6 +37,18 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+        /**
+     * فیلتر کردن محصولات فعال
+     * این اسکوپ فقط محصولات فعال را برمی‌گرداند
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query)
+    {
+        return $query->where('status', 1);
+    }
+
     /**
      * ایجاد کوئری برای جستجو در محصولات
      * این اسکوپ  محصولات را براساس نام یا توضیحات جستجوی می‌کند.
@@ -68,15 +80,35 @@ class Product extends Model
         return $query;
     }
 
-    /**
-     * فیلتر کردن محصولات فعال
-     * این اسکوپ فقط محصولات فعال را برمی‌گرداند
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeStatus($query)
+    public function scopeSortBy($query)
     {
-        return $query->where('status', 1);
+        if (request()->has('sortBy')) {
+            switch (request()->sortBy) {
+                case 'max':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'min':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'bestSellers':
+                    $query;
+                    // $query->orderBy('sold_count', 'desc');
+                    break;
+                case 'mostVisited':
+                    $query->orderBy('view_count', 'desc');
+                    break;
+                case 'sale':
+                    $query->where('sale_price', '>', 0)
+                    ->where('date_on_sale_from', '<', Carbon::now())
+                    ->where('date_on_sale_to', '>', Carbon::now());
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+        return $query;
     }
+
+
 }
