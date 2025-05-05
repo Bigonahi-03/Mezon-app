@@ -83,7 +83,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
- const Toast = Swal.mixin({
+    const Toast = Swal.mixin({
     toast: true,
     position: 'top-right',
     iconColor: 'white',
@@ -99,8 +99,7 @@
         toast.addEventListener('mouseenter', () => Swal.stopTimer());
         toast.addEventListener('mouseleave', () => Swal.resumeTimer());
     },
-});
-
+    });
 
     @if (session('success'))
         Toast.fire({
@@ -119,12 +118,43 @@
         })
     @endif
 
+    // مدیریت منو و مدال لاگین
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        const navbarCollapse = document.getElementById('navbarSupportedContent');
+        const bsCollapse = new bootstrap.Collapse(navbarCollapse, {toggle: false});
+        
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    bsCollapse.hide();
+                }
+            });
+        });
+
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        
+        if (loginBtn && loginModal) {
+            loginBtn.addEventListener('click', function() {
+                const modal = new bootstrap.Modal(loginModal);
+                modal.show();
+                history.pushState(null, '', '/login');
+            });
+        }
+
+        if (window.location.pathname === '/login') {
+            const modal = new bootstrap.Modal(loginModal);
+            modal.show();
+        }
+
+        loginModal.addEventListener('hidden.bs.modal', function() {
+            history.pushState(null, '', '/');
+        });
+    });
 </script>
-{{-- script sweetalert2 --}}
 
-
-@yield('map')
-@yield('script')
+    @yield('script')
 
 </body>
 </html>

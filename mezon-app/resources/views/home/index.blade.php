@@ -13,6 +13,8 @@
 
 @section('content')
 
+    @include('components.login-modal')
+
     @include('home.feature')
 
     <!-- food section -->
@@ -28,13 +30,7 @@
     <!-- end contact section -->
 @endsection
 
-@section('map')
-    <script>
-        var map = L.map('map').setView([27.090073, 57.105671], 15);
-        var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-        }).addTo(map);
-        var marker = L.marker([27.090073, 57.105671]).addTo(map)
-            .bindPopup('<b>دانشکده فنی میناب</b>').openPopup();
-    </script>
+@section('script')
+    <script src="{{ asset('js/map.js') }}"></script>
 @endsection
+

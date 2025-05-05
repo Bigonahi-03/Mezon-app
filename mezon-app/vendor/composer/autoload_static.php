@@ -43,7 +43,7 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'd634523d799d97a8ab4807b650bf5cea' => __DIR__ . '/..' . '/pestphp/pest-plugin-laravel/src/Autoload.php',
-        '44e8d8f1162a124782aa12a1676549be' => __DIR__ . '/../..' . '/App/Helpers/helper.php',
+        'ef157334f1067da991ff8953983afdb3' => __DIR__ . '/../..' . '/app/Helpers/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -162,6 +162,8 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
             'GrahamCampbell\\ResultType\\' => 26,
+            'Ghasedak\\Laravel\\' => 17,
+            'Ghasedak\\' => 9,
         ),
         'F' => 
         array (
@@ -515,6 +517,14 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
+        'Ghasedak\\Laravel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ghasedak/laravel/src',
+        ),
+        'Ghasedak\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ghasedak/php/src',
+        ),
         'Fruitcake\\Cors\\' => 
         array (
             0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
@@ -589,6 +599,7 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
     );
 
     public static $classMap = array (
+        'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\ContactUsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContactUsController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
@@ -1472,6 +1483,11 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         'Fidry\\CpuCoreCounter\\ParallelisationResult' => __DIR__ . '/..' . '/fidry/cpu-core-counter/src/ParallelisationResult.php',
         'Fruitcake\\Cors\\CorsService' => __DIR__ . '/..' . '/fruitcake/php-cors/src/CorsService.php',
         'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => __DIR__ . '/..' . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
+        'Ghasedak\\Exceptions\\ApiException' => __DIR__ . '/..' . '/ghasedak/php/src/Exceptions/ApiException.php',
+        'Ghasedak\\Exceptions\\HttpException' => __DIR__ . '/..' . '/ghasedak/php/src/Exceptions/HttpException.php',
+        'Ghasedak\\GhasedakApi' => __DIR__ . '/..' . '/ghasedak/php/src/GhasedakApi.php',
+        'Ghasedak\\Laravel\\GhasedakFacade' => __DIR__ . '/..' . '/ghasedak/laravel/src/GhasedakFacade.php',
+        'Ghasedak\\Laravel\\GhasedakServiceProvider' => __DIR__ . '/..' . '/ghasedak/laravel/src/GhasedakServiceProvider.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',
         'GrahamCampbell\\ResultType\\Result' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Result.php',
         'GrahamCampbell\\ResultType\\Success' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Success.php',

@@ -1,5 +1,7 @@
 <?php
 
+use Ghasedak\GhasedakApi;
+
 function slugify($str, $delimiter = '-', $lowercase = true, $limit = null, $options = array())
 {
     $str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
@@ -98,4 +100,21 @@ function imageUrl($imageName){
 function salePercent($price, $salePrice) {
     $result = (($price - $salePrice) / $price ) * 100 ;
     return round($result);
+}
+
+function sendOtpSms($cellphone, $otp) {
+    // TODO: بعد از خرید سرویس پیامک، این کامنت را بردارید
+    /*
+    $api = new GhasedakApi(env('GHASEDAKAPI_KEY'));
+    $api->Verify(
+        $cellphone,
+        1,
+        "otp",
+        $otp
+    );
+    */
+    
+    // لاگ موقت برای محیط توسعه
+    \Illuminate\Support\Facades\Log::info("SMS would be sent to {$cellphone} with OTP: {$otp}");
+    return 'Done!';
 }

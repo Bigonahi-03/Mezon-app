@@ -12,14 +12,19 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+        integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+        integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+        crossorigin=""></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
-
     @yield('link')
-
 
 </head>
 
@@ -47,16 +52,16 @@
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mx-auto">
-                                <li class="nav-item {{ request()->is('/') ? 'active' : ''  }}">
+                                <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('home') }}">صفحه اصلی</a>
                                 </li>
-                                <li class="nav-item {{ request()->is('menu') ? 'active' : ''  }}">
+                                <li class="nav-item {{ request()->is('menu') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('products.menu') }}">محصولات</a>
                                 </li>
-                                <li class="nav-item {{ request()->is('about_us') ? 'active' : ''  }}">
+                                <li class="nav-item {{ request()->is('about_us') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('about_us') }}">درباره ما</a>
                                 </li>
-                                <li class="nav-item {{ request()->is('contact_us') ? 'active' : ''  }}">
+                                <li class="nav-item {{ request()->is('contact_us') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('contact_us') }}">تماس باما</a>
                                 </li>
                             </ul>
@@ -67,9 +72,18 @@
                                         3
                                     </span>
                                 </a>
-                                <a href="login.html" class="btn-auth">
-                                    ورود
-                                </a>
+
+                                @auth
+                                    <button class="btn-auth">
+                                        پروفایل
+                                    </button>
+                                @endauth
+
+                                @guest
+                                    <button id="loginBtn" class="btn-auth">
+                                        ورود
+                                    </button>
+                                @endguest
                             </div>
                         </div>
                     </nav>
@@ -77,9 +91,13 @@
             </header>
             <!-- end header section -->
 
+            @include('components.login-modal')
+
             @if (request()->is('/'))
                 @include('home.slider')
             @endif
         </div>
     </div>
-            
+</body>
+
+</html>

@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\ContactUsController' => $baseDir . '/app/Http/Controllers/ContactUsController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
@@ -889,6 +890,11 @@ return array(
     'Fidry\\CpuCoreCounter\\ParallelisationResult' => $vendorDir . '/fidry/cpu-core-counter/src/ParallelisationResult.php',
     'Fruitcake\\Cors\\CorsService' => $vendorDir . '/fruitcake/php-cors/src/CorsService.php',
     'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => $vendorDir . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
+    'Ghasedak\\Exceptions\\ApiException' => $vendorDir . '/ghasedak/php/src/Exceptions/ApiException.php',
+    'Ghasedak\\Exceptions\\HttpException' => $vendorDir . '/ghasedak/php/src/Exceptions/HttpException.php',
+    'Ghasedak\\GhasedakApi' => $vendorDir . '/ghasedak/php/src/GhasedakApi.php',
+    'Ghasedak\\Laravel\\GhasedakFacade' => $vendorDir . '/ghasedak/laravel/src/GhasedakFacade.php',
+    'Ghasedak\\Laravel\\GhasedakServiceProvider' => $vendorDir . '/ghasedak/laravel/src/GhasedakServiceProvider.php',
     'GrahamCampbell\\ResultType\\Error' => $vendorDir . '/graham-campbell/result-type/src/Error.php',
     'GrahamCampbell\\ResultType\\Result' => $vendorDir . '/graham-campbell/result-type/src/Result.php',
     'GrahamCampbell\\ResultType\\Success' => $vendorDir . '/graham-campbell/result-type/src/Success.php',

@@ -25,7 +25,7 @@ class ContactUsController extends Controller
             return redirect()->back()->with('success', 'پیام با موفقیت ارسال شد.');
         } catch(Exception $e){
             Log::error("Error send messag". $e->getMessage());
-            return redirect()->back()->with('error', 'ارسال پیام خطا مواجه شد. لطفاً دوباره تلاش کنید.'. (env('APP_ENV' ) === 'local' ? $e->getMessage() : 'لطفاً دوباره امتحان کنید.'));
+            return redirect()->back()->with('error', 'ارسال پیام با خطا مواجه شد. لطفاً دوباره تلاش کنید.'. (env('APP_ENV' ) === 'local' ? $e->getMessage() : 'لطفاً دوباره امتحان کنید.'));
         }
     }
 }
