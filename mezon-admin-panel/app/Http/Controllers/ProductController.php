@@ -66,12 +66,12 @@ class ProductController extends Controller
         $slug = makeSlug($request->name);
         $validatedData['slug'] = $slug;
 
-        $validatedData['sale_price'] = $request->sale_price !== null ?  $request->sale_price : 0 ;
+        $validatedData['sale_price'] = $request->sale_price !== null ?  $request->sale_price : 0;
 
 
         // Convert dates to Gregorian
         $validatedData['date_on_sale_from'] = $request->date_on_sale_from !== null ?   getMiladiDate($request->date_on_sale_from) : null;
-        $validatedData['date_on_sale_to'] = $request->date_on_sale_to !== null ?  getMiladiDate($request->date_on_sale_to) : null ;
+        $validatedData['date_on_sale_to'] = $request->date_on_sale_to !== null ?  getMiladiDate($request->date_on_sale_to) : null;
 
         // dd($validatedData);
 
@@ -117,86 +117,86 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(ProductRequest $request, Product $product, ProductImage $productImage)
-{
-    $validatedData = $request->validated();
+    {
+        $validatedData = $request->validated();
 
-    // Handle primary image upload (optional on update)
-    if ($request->hasFile('primary_image')) {
-        $imageName = $request->primary_image->getClientOriginalName();
-        $primaryImageName = createImageName($imageName);
+        // Handle primary image upload (optional on update)
+        if ($request->hasFile('primary_image')) {
+            $imageName = $request->primary_image->getClientOriginalName();
+            $primaryImageName = createImageName($imageName);
 
-        // Delete old image if exists
-        Storage::delete('images/products/' . $product->primary_image);
+            // حذف تصویراصلی
+            Storage::delete('images/products/' . $product->primary_image);
 
-        // Save new image
-        $request->primary_image->storeAs('images/products/', $primaryImageName);
-        $validatedData['primary_image'] = $primaryImageName;
-    }
-
-    // Handle other product images (replace all if provided)
-    if ($request->hasFile('images')) {
-        // Delete old images
-        foreach ($product->images as $image) {
-            Storage::delete('images/products/' . $image->image);
-            $image->delete();
+            // ذخیره اسم تصویراصلی
+            $request->primary_image->storeAs('images/products/', $primaryImageName);
+            $validatedData['primary_image'] = $primaryImageName;
         }
 
-        // Save new images
-        $fileNameImages = [];
-        foreach ($request->images as $image) {
-            $imageName = $image->getClientOriginalName();
-            $fileNameImage = createImageName($imageName);
-            $image->storeAs('images/products/', $fileNameImage);
-            $fileNameImages[] = $fileNameImage;
-        }
-    }
+        // Handle other product images (replace all if provided)
+        if ($request->hasFile('images')) {
+            // حذف تصویر قبلی
+            foreach ($product->images as $image) {
+                Storage::delete('images/products/' . $image->image);
+                $image->delete();
+            }
 
-    // Generate slug only if name has changed
-    $validatedData['slug'] = $request->name === $product->name
-        ? $product->slug
-        : makeSlug($request->name);
-
-    // Set default sale price if not provided
-    $validatedData['sale_price'] = $request->sale_price ?? 0;
-
-    // Convert Jalali date to Gregorian
-    $validatedData['date_on_sale_from'] = $request->date_on_sale_from
-        ? getMiladiDate($request->date_on_sale_from)
-        : null;
-
-    $validatedData['date_on_sale_to'] = $request->date_on_sale_to
-        ? getMiladiDate($request->date_on_sale_to)
-        : null;
-
-    try {
-        DB::beginTransaction();
-
-        // Update product
-        $product->update($validatedData);
-
-        // Save new images if provided
-        if (!empty($fileNameImages)) {
-            foreach ($fileNameImages as $fileNameImage) {
-                $product->images()->create([
-                    'image' => $fileNameImage
-                ]);
+            // ذخیره تصویر جدید
+            $fileNameImages = [];
+            foreach ($request->images as $image) {
+                $imageName = $image->getClientOriginalName();
+                $fileNameImage = createImageName($imageName);
+                $image->storeAs('images/products/', $fileNameImage);
+                $fileNameImages[] = $fileNameImage;
             }
         }
 
-        DB::commit();
+        // اگد نام تغیر کرده باشد اسلاگ ان ساخته می‌شود
+        $validatedData['slug'] = $request->name === $product->name
+            ? $product->slug
+            : makeSlug($request->name);
 
-        return redirect()->route('products.index')->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
-    } catch (Exception $e) {
-        DB::rollBack();
-        Log::error("Error updating product: " . $e->getMessage());
+        // اگر تخفیف نداشته باشد صفر در نظر گرفته می‌شود
+        $validatedData['sale_price'] = $request->sale_price ?? 0;
 
-        return redirect()->route('products.index')->with(
-            'error',
-            'ویرایش محصول با خطا مواجه شد. ' .
-            (env('APP_ENV') === 'local' ? $e->getMessage() : 'لطفاً دوباره امتحان کنید.')
-        );
+        // تبدیل تاریخ جلالی به میلادی
+        $validatedData['date_on_sale_from'] = $request->date_on_sale_from
+            ? getMiladiDate($request->date_on_sale_from)
+            : null;
+
+        $validatedData['date_on_sale_to'] = $request->date_on_sale_to
+            ? getMiladiDate($request->date_on_sale_to)
+            : null;
+
+        try {
+            DB::beginTransaction();
+
+            // ویرایش تصویر
+            $product->update($validatedData);
+
+            // اگر فیلد تصویر مقدار داشته باشد تصاویر را ذخیره می‌کند
+            if (!empty($fileNameImages)) {
+                foreach ($fileNameImages as $fileNameImage) {
+                    $product->images()->create([
+                        'image' => $fileNameImage
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('products.index')->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("Error updating product: " . $e->getMessage());
+
+            return redirect()->route('products.index')->with(
+                'error',
+                'ویرایش محصول با خطا مواجه شد. ' .
+                    (env('APP_ENV') === 'local' ? $e->getMessage() : 'لطفاً دوباره امتحان کنید.')
+            );
+        }
     }
-}
 
 
     /**

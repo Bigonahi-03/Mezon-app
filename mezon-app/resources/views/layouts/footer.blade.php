@@ -79,82 +79,111 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
 
-{{-- script sweetalert2 --}}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- script sweetalert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-right',
-    iconColor: 'white',
-    customClass: {
-        popup: 'colored-toast',
-        timerProgressBar: 'swal2-timer-progress-bar',
-    },
-    showConfirmButton: false,
-    timer: 5000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        // تایمر را متوقف یا دوباره شروع کنید
-        toast.addEventListener('mouseenter', () => Swal.stopTimer());
-        toast.addEventListener('mouseleave', () => Swal.resumeTimer());
-    },
-    });
-
-    @if (session('success'))
-        Toast.fire({
-            icon: 'success',
-            title: '{{ session('success') }}',
-        })
-    @elseif (session('error'))
-        Toast.fire({
-            icon: 'error',
-            title: '{{ session('error') }}',
-        })
-    @elseif (session('warning'))
-        Toast.fire({
-            icon: 'warning',
-            title: '{{ session('warning') }}',
-        })
-    @endif
-
-    // مدیریت منو و مدال لاگین
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-        const navbarCollapse = document.getElementById('navbarSupportedContent');
-        const bsCollapse = new bootstrap.Collapse(navbarCollapse, {toggle: false});
-        
-        navLinks.forEach(function(link) {
-            link.addEventListener('click', function() {
-                if (window.innerWidth < 992) {
-                    bsCollapse.hide();
-                }
-            });
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast',
+                timerProgressBar: 'swal2-timer-progress-bar',
+            },
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                // تایمر را متوقف یا دوباره شروع کنید
+                toast.addEventListener('mouseenter', () => Swal.stopTimer());
+                toast.addEventListener('mouseleave', () => Swal.resumeTimer());
+            },
         });
 
-        const loginBtn = document.getElementById('loginBtn');
-        const loginModal = document.getElementById('loginModal');
-        
-        if (loginBtn && loginModal) {
-            loginBtn.addEventListener('click', function() {
+        @if (session('success'))
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+            })
+        @elseif (session('error'))
+            Toast.fire({
+                icon: 'error',
+                title: '{{ session('error') }}',
+            })
+        @elseif (session('warning'))
+            Toast.fire({
+                icon: 'warning',
+                title: '{{ session('warning') }}',
+            })
+        @elseif (session('wishlist_added'))
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('wishlist_added') }}',
+                html: '<a href="{{ route('profile.wishlist') }}" style="color: white; text-decoration: underline;">مشاهده لیست علاقه‌مندی‌ها</a>'
+            });
+        @elseif (session('login'))
+            Toast.fire({
+                icon: 'warning',
+                title: '{{ session('login') }}',
+                html: '<a href="{{ route('auth.loginForm') }}"> ورود به سیستم </a>'
+            });
+        @endif
+
+        // ذخیره موقعیت اسکرول هنگام ترک صفحه
+        window.addEventListener("beforeunload", function() {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+
+        // بازگردانی موقعیت اسکرول هنگام بارگذاری صفحه
+        window.addEventListener("load", function() {
+            const scrollPosition = sessionStorage.getItem("scrollPosition");
+            if (scrollPosition) {
+                window.scrollTo(0, scrollPosition);
+            }
+        });
+    
+
+        // مدیریت منو و مدال لاگین
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarCollapse = document.getElementById('navbarSupportedContent');
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                toggle: false
+            });
+
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 992) {
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            const loginBtn = document.getElementById('loginBtn');
+            const loginModal = document.getElementById('loginModal');
+
+            if (loginBtn && loginModal) {
+                loginBtn.addEventListener('click', function() {
+                    const modal = new bootstrap.Modal(loginModal);
+                    modal.show();
+                    history.pushState(null, '', '/login');
+                });
+            }
+
+            if (window.location.pathname === '/login') {
                 const modal = new bootstrap.Modal(loginModal);
                 modal.show();
-                history.pushState(null, '', '/login');
+            }
+
+            loginModal.addEventListener('hidden.bs.modal', function() {
+                history.pushState(null, '', '/');
             });
-        }
-
-        if (window.location.pathname === '/login') {
-            const modal = new bootstrap.Modal(loginModal);
-            modal.show();
-        }
-
-        loginModal.addEventListener('hidden.bs.modal', function() {
-            history.pushState(null, '', '/');
         });
-    });
-</script>
+    </script>
 
     @yield('script')
 
-</body>
-</html>
+    </body>
+
+    </html>

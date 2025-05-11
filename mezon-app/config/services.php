@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'neshan' => [
+        'key' => env('NESHAN_API_KEY')
+    ]
+
 ];

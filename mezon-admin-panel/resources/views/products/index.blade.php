@@ -31,27 +31,35 @@
 
                     @foreach ($products as $product)
                         <tr>
-                            <td><img src="{{ asset('images/products/' . $product->primary_image) }}" class="rounded" alt="{{ $product->name }}" width="100" height="100"></td>
+                            <td><img src="{{ asset('images/products/' . $product->primary_image) }}" class="rounded"
+                                    alt="{{ $product->name }}" width="100" height="100"></td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category->name }}</td>
-                            <td>{{ number_format($product->price)}}</td>
+                            <td>{{ number_format($product->price) }}</td>
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->status ? 'فعال' : 'غیر فعال' }}</td>
                             <td>{{ $product->is_featured ? 'ویژه' : 'عادی ' }}</td>
-                            
+
                             <td>
                                 <div class="d-flex">
-                                    <a href="{{ route('products.show', ['product' => $product->id]) }}"
-                                        class="btn btn-sm btn-outline-primary me-2">نمایش</a>
+                                    <span>
+                                        <a href="{{ route('products.show', ['product' => $product->id]) }}"
+                                            class="btn btn-sm btn-outline-primary me-2">نمایش</a>
+                                    </span>
 
-                                    <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                        class="btn btn-sm btn-outline-info me-2">ویرایش</a>
+                                    <span>
+                                        <a href="{{ route('products.edit', ['product' => $product->id]) }}"
+                                            class="btn btn-sm btn-outline-info me-2">ویرایش</a>
+                                    </span>
 
-                                    <a href="{{ route('products.sizes.index', ['product' => $product->id]) }}"
-                                        class="btn btn-sm btn-outline-warning me-2">سایز بندی</a>
+                                    <span>
+                                        <a href="{{ route('products.sizes.index', ['product' => $product->id]) }}"
+                                            class="btn btn-sm btn-outline-warning me-2">سایز </a>
+                                    </span>
 
                                     <form id="delete-form-product-{{ $product->id }}"
-                                        action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
+                                        action="{{ route('products.destroy', ['product' => $product->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-sm btn-danger"

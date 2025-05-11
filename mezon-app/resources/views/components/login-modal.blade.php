@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="loginModalLabel" aria-hidden="true">
+    aria-labelledby="loginModalLabel">
     <div class="modal-dialog modal-dialog-centered" x-data="loginForm">
         <div class="modal-content">
             <div class="modal-header px-3">
@@ -173,6 +173,9 @@
                                 icon: 'success',
                                 title: data.message
                             });
+
+                            window.location.reload();
+
                         }
                     } else {
                         this.error = data.message;
@@ -226,4 +229,7 @@
             }
         });
     });
+
+
+
 </script>

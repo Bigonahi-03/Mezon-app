@@ -17,6 +17,8 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+     protected $table = 'users';
     protected $fillable = [
         'name',
         'cellphone',
@@ -49,4 +51,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function address(){
+        return $this->hasOne(UserAddress::class);
+    }
+
+    public function wishlist()
+{
+    return $this->hasMany(Wishlist::class);
+}
+
 }

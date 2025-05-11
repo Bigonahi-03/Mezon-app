@@ -52,8 +52,11 @@
                                         -
                                     </span>
                                 </div>
+
                             </form>  
                             @endif
+
+
                         </div>
                         <div class="col-sm-12 col-lg-6">
                             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -98,6 +101,7 @@
                                 @endforeach
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

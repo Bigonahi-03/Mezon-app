@@ -1,7 +1,7 @@
 :root {
     /* رنگ‌های اصلی */
-    --primary-color:#C5B358; /* نارنجی طلایی */
-    --primary-hover:#B8860B; /* نارنجی تیره */
+    --primary-color:#ffaa00; /* نارنجی طلایی */
+    --primary-hover:#ff9500; /* نارنجی تیره */
     --secondary-color: #222831; /* خاکستری تیره */
     --secondary-hover: #1a1f26; /* خاکستری تیره‌تر */
     --text-color: #0c0c0c; /* مشکی */

@@ -2,61 +2,6 @@
 
 @section('title', 'Menu Page')
 
-@section('script')
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('menu', (initialTab = 'all') => ({
-                search: '{{ request()->get('search') }}',
-                tab: localStorage.getItem('activeTab') || initialTab,
-                currentUrl: '{{ url()->current() }}',
-                params: new URLSearchParams(location.search),
-
-                init() {
-                    this.$watch('tab', (value) => {
-                        localStorage.setItem('activeTab', value);
-
-                        // حذف همه پارامترهای page وقتی تب عوض میشه
-                        for (let [key] of this.params.entries()) {
-                            if (key.endsWith('_page') || key === 'all_page') {
-                                this.params.delete(key);
-                            }
-                        }
-
-                        // اضافه کردن پارامتر جدید tab برای تشخیص تب فعال
-                        this.params.set('tab', value);
-
-                        // رفتن به آدرس جدید با پارامترهای به‌روز
-                        window.location.href = this.currentUrl + '?' + this.params.toString();
-                    });
-                },
-
-                //اضافه کردن فیلتر ها به ادرس
-                filter(type, value) {
-                    this.params.set(type, value);
-                    this.params.delete('all_page');
-                    for (let [key] of this.params.entries()) {
-                        if (key.endsWith('_page')) {
-                            this.params.delete(key);
-                        }
-                    }
-                    window.location.href = this.currentUrl + '?' + this.params.toString();
-                },
-
-                //حذف فیلتر ها از ادرس
-                removeFilter(type) {
-                    this.params.delete(type);
-                    this.params.delete('all_page');
-                    for (let [key] of this.params.entries()) {
-                        if (key.endsWith('_page')) {
-                            this.params.delete(key);
-                        }
-                    }
-                    window.location.href = this.currentUrl + '?' + this.params.toString();
-                }
-            }));
-        });
-    </script>
-@endsection
 
 @section('content')
     <section class="food_section layout_padding">
@@ -156,4 +101,60 @@
             </div>
         </div>
     </section>
+
+    @section('script')
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('menu', (initialTab = 'all') => ({
+                search: '{{ request()->get('search') }}',
+                tab: localStorage.getItem('activeTab') || initialTab,
+                currentUrl: '{{ url()->current() }}',
+                params: new URLSearchParams(location.search),
+
+                init() {
+                    this.$watch('tab', (value) => {
+                        localStorage.setItem('activeTab', value);
+
+                        // حذف همه پارامترهای page وقتی تب عوض میشه
+                        for (let [key] of this.params.entries()) {
+                            if (key.endsWith('_page') || key === 'all_page') {
+                                this.params.delete(key);
+                            }
+                        }
+
+                        // اضافه کردن پارامتر جدید tab برای تشخیص تب فعال
+                        this.params.set('tab', value);
+
+                        // رفتن به آدرس جدید با پارامترهای به‌روز
+                        window.location.href = this.currentUrl + '?' + this.params.toString();
+                    });
+                },
+
+                //اضافه کردن فیلتر ها به ادرس
+                filter(type, value) {
+                    this.params.set(type, value);
+                    this.params.delete('all_page');
+                    for (let [key] of this.params.entries()) {
+                        if (key.endsWith('_page')) {
+                            this.params.delete(key);
+                        }
+                    }
+                    window.location.href = this.currentUrl + '?' + this.params.toString();
+                },
+
+                //حذف فیلتر ها از ادرس
+                removeFilter(type) {
+                    this.params.delete(type);
+                    this.params.delete('all_page');
+                    for (let [key] of this.params.entries()) {
+                        if (key.endsWith('_page')) {
+                            this.params.delete(key);
+                        }
+                    }
+                    window.location.href = this.currentUrl + '?' + this.params.toString();
+                }
+            }));
+        });
+    </script>
+    @endsection
 @endsection

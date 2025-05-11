@@ -12,8 +12,6 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="./css/style.css">
-
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
@@ -22,7 +20,7 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
 
     @yield('link')
 
@@ -32,7 +30,7 @@
     <div class = "{{ request()->is('/') ? '' : 'sub_page' }}">
         <div class="hero_area ">
             <div class="bg-box">
-                <img src="./images/hero-bg.jpg" alt="">
+                <img src="{{ asset('/images/hero-bg.jpg') }}" alt="hero-bg">
             </div>
             <!-- header section strats -->
             <header class="header_section">
@@ -74,9 +72,9 @@
                                 </a>
 
                                 @auth
-                                    <button class="btn-auth">
+                                    <a href="{{ route('profile.index') }}" class="btn-auth">
                                         پروفایل
-                                    </button>
+                                    </a>
                                 @endauth
 
                                 @guest

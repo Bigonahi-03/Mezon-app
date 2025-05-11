@@ -204,6 +204,8 @@ return [
         'subject' => 'موضوع',
         'icon' => ' ایکون',
         'otp' => ' کد ورود',
+        'province'=> 'استان',
+        'postal_code'=> 'کد پستی',
         'cellphone' => ' شماره موبایل'
     ],
 ];

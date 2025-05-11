@@ -31,18 +31,16 @@ class ProductRequest extends FormRequest
             'price' => 'required|integer',
             'quantity' => 'required|integer',
             'sale_price' => 'nullable|integer',
-            'date_on_sale_from' => 'nullable|date_format:Y/m/d H:i:s',
-            'date_on_sale_to' => 'nullable|date_format:Y/m/d H:i:s',
+            'date_on_sale_from' => 'nullable|string',
+            'date_on_sale_to' => 'nullable|string',
             'is_featured' => 'required|integer',
             'description' => 'required',
         ];
-        
-        if($this->routeIs('products.update')){
+
+        if ($this->routeIs('products.update')) {
             $rules['primary_image'] = 'nullable|image';
         }
 
         return $rules;
-
-        
     }
 }
